@@ -1,5 +1,5 @@
 # README
-双机房切换项目
+go Demo Server
 
 ## 目录说明
 1. cmd：编译入口
@@ -20,12 +20,11 @@
 3. 依赖注入：解决2的实现问题，依赖通过inbound接口处组合注入
 
 ## 额外功能
-1. http服务支持自动生成OpenApi标准文档
+1. http服务支持自动生成OpenApi标准文档(考虑直接使用go-restful)
 2. http服务支持/docs及/redoc直接访问web文档
 3. http服务Graceful stop
 4. http服务PProf
 5. http服务监控（待开发）
-6. 支持Nacos配置（待开发）
 7. http服务基于uri的权限管理（待开发）
 
 ## 标准开发过程
