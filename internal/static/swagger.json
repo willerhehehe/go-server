@@ -1,0 +1,220 @@
+{
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "The purpose of this service is to provide an application to help manage db switch task",
+    "title": "DCSwitch API",
+    "version": "0.0.1"
+  },
+  "host": "127.0.0.1",
+  "paths": {
+    "/healthz": {
+      "get": {
+        "description": "health check url",
+        "operationId": "HealthCheckParam",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/HealthCheckResp"
+          }
+        }
+      }
+    },
+    "/switch/version/name/{id}": {
+      "patch": {
+        "description": "编辑切换版本名",
+        "operationId": "EditVersionName",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "x-go-name": "Name"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "404": {
+            "description": ""
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/switch/versions": {
+      "get": {
+        "description": "获取所有切换版本信息",
+        "operationId": "GetAllVersionsParam",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetAllVersionsResp"
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/task/switch/module/detail": {
+      "post": {
+        "description": "模块明细 start/success/fail",
+        "operationId": "ModuleDetailTask",
+        "parameters": [
+          {
+            "example": "{\"type\": \"start\", \"name\": \"DBASwitch1\"}",
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "x-go-name": "Name"
+                },
+                "type": {
+                  "type": "string",
+                  "pattern": "^(start|success|fail)$",
+                  "x-go-name": "Type"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          },
+          "403": {
+            "description": ""
+          },
+          "500": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "get": {
+        "description": "慢查询模拟",
+        "operationId": "GetMockSlow",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Id",
+            "description": "an id of user info",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetMockSlowResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "SwitchVersion": {
+      "description": "SwitchVersion 切换演练版本",
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "x-go-package": "dcswitch/internal/domain"
+    }
+  },
+  "responses": {
+    "GetAllVersionsResp": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "versions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/SwitchVersion"
+            },
+            "x-go-name": "Versions"
+          }
+        }
+      }
+    },
+    "GetMockSlowResponse": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Id"
+          }
+        }
+      }
+    },
+    "HealthCheckResp": {
+      "description": "",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Status",
+            "example": 200
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "TOKEN",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
+}
